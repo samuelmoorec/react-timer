@@ -7,10 +7,29 @@
   pointer-events: none;
 }
 
+@font-face {
+  font-family: "DS_Digital";
+  src: url(digital-7_MONO.ttf) format('truetype');
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+
+.timer{
+  font-family: DS_Digital;
+  display: flex;
+  font-size: 2em;
+  justify-content: center;
+  margin: 5px;
+}
+
+.timer_container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .App-header {

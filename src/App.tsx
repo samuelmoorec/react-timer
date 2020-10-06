@@ -6,7 +6,7 @@ function App() {
 
   const [timeStarted, setTimeStarted] = useState<number>();
   const [timeFinished, setTimeFinished] = useState<number>();
-  const [timer, setTimer] = useState<string>("0.00s");
+  const [timer, setTimer] = useState<string>("0.00");
   const [isTimerActive, setisTimerActive] = useState<boolean>(false);
   const [prevTimes, setPrevTimes] = useState<number[]>([]);
 
@@ -32,7 +32,6 @@ function App() {
       setTimeStarted(Moment().valueOf());
     }else{
       setTimeFinished(Moment().valueOf());
-      console.log("calling toggle");
       setPrevTimes(addPrevTime(prevTimes))
     }
 
@@ -42,11 +41,11 @@ function App() {
 
   const displayTimer = () => {
     if(timeStarted === undefined){
-      return "0s"
+      return "0.00"
     }else if(timeFinished === undefined){
-      return (Moment().diff(Moment(timeStarted),'milliseconds')/1000).toFixed(2) + "s";
+      return (Moment().diff(Moment(timeStarted),'milliseconds')/1000).toFixed(2);
     }else if(timeFinished !== undefined){
-      return ((Moment().diff(Moment(timeStarted),'milliseconds') + addupTimes())/1000).toFixed(2) + "s";
+      return ((Moment().diff(Moment(timeStarted),'milliseconds') + addupTimes())/1000).toFixed(2);
     }else{
       return ""
     }
@@ -61,18 +60,18 @@ function App() {
 
   const addPrevTime = (arr: number[]) => {
     arr.push(Moment().diff(Moment(timeStarted),'milliseconds'));
-    console.log(arr);
+    
     return arr;
   }
 
   const toggleButtonText = () => {
     if(isTimerActive)
-    return "Stop Timer"
+    return "Pause Timer"
     else return "Start Timer"
   }
 
   const reset = () => {
-    setTimer("0.00s");
+    setTimer("0.00");
     setisTimerActive(false);
     setPrevTimes([]);
   }
@@ -81,12 +80,12 @@ function App() {
 
 
   return (
-    <>
-      <h3>{timer}</h3>
+    <div className="timer_container">
+      <p className="timer">{timer}</p>
       <button onClick={toggleTimer}>{toggleButtonText()}</button>
       <br/>
-      <button onClick={reset}>Reset</button>
-    </>
+      <button onClick={reset}>Stop</button>
+    </div>
   );
 }
 
