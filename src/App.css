@@ -26,6 +26,10 @@
   margin: 5px;
 }
 
+.timerfont{
+  font-family: DS_Digital;
+}
+
 .timer_container{
   display: flex;
   justify-content: center;
