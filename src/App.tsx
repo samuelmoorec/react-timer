@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
 
     var timerID = setInterval(() => tick()
-    , 10);
+    , 1);
     return function cleanup() {
       clearInterval(timerID);
     }
@@ -52,6 +52,7 @@ function App() {
     }
 
   }
+
 
   const addupTimes = () => {
     let sum = 0;
@@ -91,26 +92,60 @@ function App() {
   }
 
   
-  let displayLaps = laps.map((lap, index) => <div><p>lap {index + 1},   <span className="timerfont">{lap.toFixed(2)}</span></p></div>);
+  // let displayLaps = laps.map((lap, index) => <div><p>lap {index + 1},   <span className="timerfont">{lap.toFixed(2)}</span></p></div>);
 
-  let lapButton = () => {
-    if(isTimerActive){
-      return <button onClick={reset}>Reset</button>
+  const calcLapDifference = (currentLap : number, lastLap : number) =>{
+    let diff = currentLap - lastLap;
+    if(diff > 0){
+    return <span className="slower_lap">{diff.toFixed(2)}</span>
     }else{
-      return <button disabled onClick={reset}>Reset</button>
+    return <span className="faster_lap">{Math.abs(diff).toFixed(2)}</span>
     }
   }
+
+  const lapAverage = () =>{
+    if(laps.length > 0){
+    let sum = laps.reduce((sum, num) => sum + num);
+    return (sum/laps.length).toFixed(2);
+    }else return "0.00"
+  }
+
+  const generateLaps = () => {
+    let lastLapTime = 0;
+    let html : JSX.Element;
+    
+    let toreturn = laps.map((lap, index) => {
+      
+    
+      if(index > 0){
+        html = <div><p>lap {index + 1},   <span className="timerfont">{lap.toFixed(2)}</span>   {calcLapDifference(lap,lastLapTime)}</p></div>
+      }else{
+        lastLapTime = lap;
+        html = <div><p>lap {index + 1},   <span className="timerfont">{lap.toFixed(2)}</span></p></div>
+      }
+
+      lastLapTime = lap;
+      return html;
+      });
+
+     return toreturn;
+      
+  }
+
+
+
+
 
   return (
     <div className="timer_container">
       <p className="timer">{timer}</p>
       <button onClick={toggleTimer}>{toggleButtonText()}</button>
-      <br/>
-      <button onClick={reset}>Reset</button>
-      <br/>
+      
+      <button disabled={isTimerActive} onClick={reset}>Reset</button>
+      
       <button disabled={!isTimerActive} onClick={addLap}>Lap</button>
-      <div>{displayLaps}
-      </div>
+  <p>Lap Average {lapAverage()}s</p>
+      <div>{generateLaps()}</div>
     </div>
   );
 }

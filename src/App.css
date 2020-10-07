@@ -30,6 +30,14 @@
   font-family: DS_Digital;
 }
 
+.slower_lap{
+  color: red;
+}
+
+.faster_lap{
+  color: green;
+}
+
 .timer_container{
   display: flex;
   justify-content: center;
